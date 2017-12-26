@@ -814,6 +814,21 @@ const MyConnectedComponent = connect(
 )(MyComponent);
 ```
 
+### Hot reloading
+
+Given a Found-enhanced Redux store, you can dynamically replace the route configuration with `found.replaceRouteConfig` on the store object. This will replace the route configuration and run the match with the current location against the new route configuration.
+
+```js
+if (module.hot) {
+  module.hot.accept('./routeConfig', () => {
+    const nextRouteConfig = require('./routeConfig');
+    store.found.replaceRouteConfig(nextRouteConfig);
+  });
+}
+```
+
+`createMatchEnhancer` takes an optional `getFound` function as its second argument. If you installed `foundReducer` on a key other than `found`, specify the `getFound` function to retrieve the reducer state to enable this hot reloading support.
+
 ### Server-side rendering
 
 Found supports server-side rendering for universal applications. Functionality specific to server-side rendering is available in `found/lib/server`.
